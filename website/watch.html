@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="robots" content="noindex">
+<title>Chatterbox – Watch together</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  #player, iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  #msg { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; color: #cfd6ea;
+         font: 600 15px/1.5 system-ui, sans-serif; text-align: center; padding: 24px; }
+</style>
+</head>
+<body>
+<!-- Used inside the Chatterbox app only: the app drives this player and keeps
+     both people in sync. -->
+<div id="player"></div>
+<div id="msg"></div>
+<script>
+  function send(o) {
+    var s = JSON.stringify(o);
+    try {
+      if (window.chrome && window.chrome.webview) window.chrome.webview.postMessage(s);
+      else if (window.CbxBridge) window.CbxBridge.postMessage(s);
+    } catch (e) {}
+  }
+  function show(t) { var m = document.getElementById('msg'); m.textContent = t; m.style.display = 'flex'; }
+
+  var params = new URLSearchParams(location.search);
+  var vid = (params.get('v') || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 11);
+  var player = null, ready = false;
+
+  window.cbx = {
+    play: function () { if (ready) player.playVideo(); },
+    pause: function () { if (ready) player.pauseVideo(); },
+    seek: function (t) { if (ready) player.seekTo(Math.max(0, +t || 0), true); },
+    load: function (id, t) {
+      id = String(id || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 11);
+      if (ready && id) { vid = id; player.loadVideoById({ videoId: id, startSeconds: +t || 0 }); }
+    },
+    state: function () {
+      if (!ready) return;
+      send({ e: 'time', t: player.getCurrentTime(), s: player.getPlayerState(), v: vid });
+    }
+  };
+
+  window.onYouTubeIframeAPIReady = function () {
+    if (!vid) { show('No video'); return; }
+    player = new YT.Player('player', {
+      videoId: vid,
+      playerVars: { playsinline: 1, rel: 0, modestbranding: 1, origin: location.origin },
+      events: {
+        onReady: function () {
+          ready = true;
+          send({ e: 'ready', d: player.getDuration(), v: vid });
+          setInterval(window.cbx.state, 1000);
+        },
+        onStateChange: function (ev) {
+          send({ e: 'state', s: ev.data, t: player.getCurrentTime(), v: vid });
+        },
+        onError: function (ev) {
+          send({ e: 'error', c: ev.data });
+          show(ev.data === 101 || ev.data === 150
+            ? 'The owner of this video does not allow it to be played outside YouTube.'
+            : 'This video cannot be played.');
+        }
+      }
+    });
+  };
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
