@@ -220,10 +220,18 @@
   .changes b { display: block; font-size: 17px; }
   .changes small { color: var(--muted); font-weight: 600; margin-left: 6px; }
   .changes span { color: var(--muted); }
-  .next { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-  .next li { background: var(--surface); border: 1px solid var(--line); border-radius: 18px 18px 18px 6px; padding: 12px 16px; }
-  .next b { display: block; font-size: 16.5px; }
-  .next span { color: var(--muted); font-size: 15px; }
+  .next { list-style: none; margin: 0; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; }
+  .next li + li { border-top: 1px solid var(--line); }
+  .next button { display: flex; align-items: flex-start; gap: 14px; width: 100%; text-align: left; padding: 14px 12px; border: 0; border-radius: 20px; background: none; cursor: pointer; transition: background .15s ease; }
+  .next button:hover { background: color-mix(in srgb, var(--cobalt) 6%, transparent); }
+  .next .g { width: 42px; height: 42px; flex: none; border-radius: 14px 14px 14px 4px; display: grid; place-items: center; background: color-mix(in srgb, var(--cobalt) 10%, var(--surface)); color: var(--cobalt); }
+  .next .g svg { width: 22px; height: 22px; }
+  .next .w { flex: 1; min-width: 0; }
+  .next b { display: block; font-size: 17px; }
+  .next .w span { display: block; color: var(--muted); font-size: 15px; line-height: 1.45; }
+  .next .vote { flex: none; align-self: center; font-size: 13.5px; font-weight: 700; color: var(--cobalt); padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--line); transition: background .15s ease, color .15s ease, border-color .15s ease; }
+  .next button:hover .vote, .next button:focus-visible .vote { background: var(--cobalt); border-color: var(--cobalt); color: #fff; }
+  .next button.voted .vote { background: var(--mint); border-color: var(--mint); color: #0B3B26; }
 
   footer .links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 
@@ -378,14 +386,14 @@
       </div>
       <div>
         <h2>Coming next</h2>
-        <p class="sub">Things you will not find in most chat apps. Tell us which one you want first.</p>
+        <p class="sub">Things most chat apps don't have. Vote for the one you want first.</p>
         <ul class="next">
-          <li><b>⏳ Time capsule</b><span>A message that opens only on the date you pick, like a birthday wish a year from now.</span></li>
-          <li><b>📺 Watch together</b><span>Play a YouTube video in sync with a friend, with chat and live reactions on top.</span></li>
-          <li><b>✏️ Doodles</b><span>Draw with your finger and send it; your friend sees it being drawn.</span></li>
-          <li><b>🙈 Secret messages</b><span>Blurred text that shows only while you hold your finger on it.</span></li>
-          <li><b>🎂 Birthday reminders</b><span>A nudge the day before, and confetti in the chat on the day.</span></li>
-          <li><b>⏰ Scheduled messages</b><span>Write now, send at midnight.</span></li>
+          <li><button type="button" data-want="Time capsule"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h12M6 21.5h12M7.5 2.5v3a4.5 4.5 0 0 0 9 0v-3M7.5 21.5v-3a4.5 4.5 0 0 1 9 0v3"/></svg></span><span class="w"><b>Time capsule</b><span>A message that opens only on the date you pick, like a birthday wish a year from now.</span></span><span class="vote">Vote</span></button></li>
+          <li><button type="button" data-want="Watch together"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="13" rx="3"/><path d="M10.5 8.5v5l4-2.5z"/><path d="M8.5 21h7"/></svg></span><span class="w"><b>Watch together</b><span>Play a YouTube video in sync with a friend, with chat and reactions on top.</span></span><span class="vote">Vote</span></button></li>
+          <li><button type="button" data-want="Doodles"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><span class="w"><b>Doodles</b><span>Draw with your finger and send it. Your friend watches it being drawn.</span></span><span class="vote">Vote</span></button></li>
+          <li><button type="button" data-want="Secret messages"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 6.1Q11.3 6 12 6c5 0 9 6 9 6a16 16 0 0 1-2.9 3.4M6.6 7.6A16 16 0 0 0 3 12s4 6 9 6a9 9 0 0 0 3.4-.7"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></span><span class="w"><b>Secret messages</b><span>Blurred text that shows only while you hold your finger on it.</span></span><span class="vote">Vote</span></button></li>
+          <li><button type="button" data-want="Birthday reminders"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21h16M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"/><path d="M5 16.5c1.2.9 2.6.9 3.8 0s2.6-.9 3.8 0 2.6.9 3.8 0 2.1-.7 2.6-.3"/><path d="M12 12V8.5"/><path d="M12 5.5c.8-.6.8-1.8 0-2.5-.8.7-.8 1.9 0 2.5z"/></svg></span><span class="w"><b>Birthday reminders</b><span>A nudge the day before, and confetti in the chat on the day.</span></span><span class="vote">Vote</span></button></li>
+          <li><button type="button" data-want="Scheduled messages"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12.5" r="8.5"/><path d="M12 8v4.5l3 2"/><path d="M4.5 3.5l-2 2M19.5 3.5l2 2"/></svg></span><span class="w"><b>Scheduled messages</b><span>Write it now, and it goes out at midnight.</span></span><span class="vote">Vote</span></button></li>
         </ul>
       </div>
     </div>
@@ -488,6 +496,18 @@ if (/(access_token|token_hash|error_description|[?&]code)=/.test(location.search
 const SUPA = 'https://gnmjhlqoyiehosririsz.supabase.co';
 const KEY = 'sb_publishable_r8okuRZ25Xx18k1seOuuVA_efG1n2V2';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- coming next: vote fills the feedback box ---------- */
+for (const b of document.querySelectorAll('.next button')) {
+  b.addEventListener('click', () => {
+    const ta = document.getElementById('fb-msg');
+    ta.value = 'I want "' + b.dataset.want + '" first.';
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+    for (const o of document.querySelectorAll('.next button')) o.classList.toggle('voted', o === b);
+    document.getElementById('feedback').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(() => ta.focus({ preventScroll: true }), reduce ? 0 : 600);
+  });
+}
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* ---------- theme ---------- */
