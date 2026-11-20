@@ -481,6 +481,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+// Sign-up / password links from Chatterbox emails land here: send them to the account page.
+if (/(access_token|token_hash|error_description|[?&]code)=/.test(location.search + '&' + location.hash.slice(1))) {
+  location.replace('verified.html' + location.search + location.hash);
+}
 const SUPA = 'https://gnmjhlqoyiehosririsz.supabase.co';
 const KEY = 'sb_publishable_r8okuRZ25Xx18k1seOuuVA_efG1n2V2';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
